@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=X8UIt7PTwh98c1ieeyc6YRTamFqD7bBh"></script>
+		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 		<title></title>
 		<style type="text/css">  
 		        html{height:100%}  
@@ -21,6 +22,7 @@
 		map.addEventListener('click', function(e) {
 		        alert('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
 		    });
+			debugger
 		let arrLocation = [{"lat": 117.17167943649176,"lng": 31.86124572121674},{"lat": 117.17263164033234,"lng": 31.861165216893394},{"lat": 117.17290113198533,"lng": 31.860548014722667}]
 		let points = []
 		arrLocation.map(function(item,index,arr){
@@ -29,6 +31,31 @@
 		})
 		var polyline = new BMapGL.Polyline(points, {strokeColor:"red", strokeWeight:10, strokeOpacity:1});
 		map.addOverlay(polyline);
+		//添加控件
+		let opts ={offset:new BMapGL.Size(20,5),anchor:'BMAP_ANCHOR_TOP_LEFT'}
+		let cityListControl = new BMapGL.CityListControl(opts)
+		map.addControl(cityListControl)
+		//自定义搜索控件
+		let SearchControl = function(){
+			this.defaultAnchor = 'BMAP_ANCHOR_TOP_LEFT'
+			this.defaultOffset = new BMapGL.Size(100,5)	
+		}
+		SearchControl.prototype = new BMapGL.Control()
+		SearchControl.prototype.initialize = function(map){
+			let div = document.createElement("div")
+			$(div).css({
+				width:'150px',
+				overflow:'auto',
+				border:'1px solid #dddddd',
+				backgroundColor:'#ffffff'
+			})
+			$(div).html("<input style='height:25px;border-width:0px' type='text'><span style='padding:5px 0px'><i class='fa fa-search bigger-120' style='color:green;cursor:pointer' title='搜索'></i></span></div>")
+			debugger
+			map.getContainer().appendChild(div);
+			return div
+		}
+		let searchControl = new SearchControl()
+		map.addControl(searchControl)
 	</script>
 	
 </html>
