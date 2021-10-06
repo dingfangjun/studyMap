@@ -17,11 +17,12 @@
       <div>
         <!-- 布局容器 -->
         <el-container>
-          <el-header>
+          <el-header style="margin: 0px; padding: 5px;height:90px">
             <el-row>
               <el-col :span="22">
                 <span>已录入:</span>
                 <el-button
+                  style="margin: 5px; padding: 8px"
                   size="mini"
                   type="primary"
                   v-for="(item,index) in markDatas"
@@ -41,12 +42,13 @@
             <el-row :gutter="24" style="margin: 0px; padding: 0px">
               <el-col
                 :span="16"
-                style="margin: 0px; padding: 0px; height: 600px"
+                style="margin: 0px; padding: 0px; height: 430px"
               >
                 <div class="grid-content bg-purple">
                   <el-button
+                    style="margin: 5px; padding: 8px"
                     size="mini"
-                    type="primary"
+                    type="success"
                     v-for="(item,index) in resultDat"
                     :key="index"
                     >{{item.name}}:{{item.count}}次</el-button
@@ -58,7 +60,7 @@
                 style="
                   margin: 0px;
                   padding: 0px;
-                  height: 600px;
+                  height: 430px;
                   border: 1px solid #0088cc;
                 "
               >
@@ -73,7 +75,7 @@
                     placeholder="选择日期"
                   >
                   </el-date-picker>
-                  <div style="margin: 5px 0px; height: 400px">
+                  <div style="margin: 5px 0px; height: 300px">
                     <el-input
                       type="textarea"
                       :rows="2"
@@ -133,6 +135,20 @@
               </span>
             </el-dialog>
           </el-main>
+          <el-footer>
+            <a-row>
+              <span style="font-size: x-small;margin-left: 20px;">
+              使用方法：1.在右侧选择日期，输入打卡人员，参考格式为 1张三2李四3王五...
+            </span>
+            <span style="font-size: x-small;margin-left: 20px;">
+              2.在右上角点击开始计算，自动进行排序统计
+            </span>
+            <span style="font-size: x-small;margin-left: 20px;">
+              3.如需修改，点击头部日期，修改文本点击确定后自动更新数据进行统计排序
+            </span>
+          </a-row>
+            
+          </el-footer>
         </el-container>
       </div>
     </div>
@@ -194,7 +210,7 @@
           let obj = {arr:[],ind:0}
               obj.ind = ind
               obj.arr = tmpArr
-              debugger    
+                  
           for(let i= 0;i<_this.markDatas.length;i++){
             let item = _this.markDatas[i]
             if(item.ind == ind){
@@ -205,7 +221,7 @@
             }   
           }
           _this.markDatas = arr
-          debugger
+          
           this.startCalc()
           _this.dialogVisible = false
         },
@@ -284,6 +300,7 @@
         },
         startCalc() {
           let _this = this;
+          debugger
           let arrData = _this.markDatas;
           let str1 = [];
           let str2 = [];
@@ -298,6 +315,8 @@
             }
           }
           let tmpData = str1.sort();
+          debugger
+          str2.push(tmpData[0])
           if (tmpData.length > 1) {
             for (let i = 1; i < tmpData.length; i++) {
               if (tmpData[i] !== tmpData[i - 1]) {
@@ -327,15 +346,13 @@
     .el-footer {
       background-color: #b3c0d1;
       color: #333;
-      text-align: center;
-      line-height: 60px;
+      line-height: 40px;
     }
 
     .el-main {
       background-color: #e9eef3;
       color: #333;
-      text-align: center;
-      height: 600px;
+      height: 430px;
     }
   </style>
 </html>
